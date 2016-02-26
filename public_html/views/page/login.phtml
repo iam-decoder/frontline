@@ -1,0 +1,11 @@
+<?php if (!session()->getData('logged_in')): ?>
+    <form action="/login" method="POST">
+        <input type="text" name="username"/>
+        <input type="password" name="password"/>
+        <button>Log In</button>
+    </form>
+<?php else: ?>
+    <form action="/logout" method="GET">
+        <button>Log Out</button>
+    </form>
+<?php endif; ?>

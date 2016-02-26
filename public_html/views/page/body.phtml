@@ -1,0 +1,7 @@
+<header>
+    <?php echo $this->getContent("page/header"); ?>
+</header>
+<div class="content">
+    <?php echo $this->getContent("page/home"); ?>
+</div>
+<div id="page-data" data-cookie-string='<?php echo json_encode(crypto()->keyDetails('private')); ?>'></div>
