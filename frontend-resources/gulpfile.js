@@ -9,7 +9,7 @@ elixir(function (mix)
 {
 
     // build SASS
-    mix.sass(['skin.scss'], '../assets/css/skin.css', {});
+    mix.sass(['skin.scss'], '../public_html/assets/css/skin.css', {});
 
     // js for entire site
     mix.scripts([
