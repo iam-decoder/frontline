@@ -22,7 +22,7 @@ DirectoryIndex index.php
     RewriteCond %{REQUEST_URI} !(.php|.txt)$ [NC]
     RewriteCond %{REQUEST_URI} !^(/assets|/index) [NC]
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^(.*)$ /index.php/$1 [L,QSA]
+    RewriteRule ^(.*)$ index.php/$1 [L,QSA]
 </IfModule>
 
 <IfModule mod_deflate.c>
