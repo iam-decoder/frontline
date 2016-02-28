@@ -27,8 +27,8 @@ require_once(HELPERPATH . "functions.php");
 
 //Standard classes loaded on all requests
 loadLibrary("encryption", true, "crypto");
-loadLibrary("session");
 loadLibrary("request");
+loadLibrary("session");
 loadLibrary("controller", false);
 loadLibrary("model", false);
 

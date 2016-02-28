@@ -1,0 +1,29 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    background-color: $gray-lightest;
+    overflow: hidden;
+}
+
+body {
+    .content-container {
+        display: block;
+        height: 100%;
+        overflow: hidden;
+        overflow-y: auto;
+    }
+}
+
+@for $i from 1 through 9 {
+    h#{$i} {
+        margin-top: 0;
+        margin-bottom: $spacing;
+    }
+}
+
+.stretch-block {
+    height: 100%;
+    display: block;
+}

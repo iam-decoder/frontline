@@ -1,11 +1,16 @@
-<?php if (!session()->getData('logged_in')): ?>
-    <form action="/login" method="POST">
-        <input type="text" name="username"/>
-        <input type="password" name="password"/>
-        <button>Log In</button>
-    </form>
-<?php else: ?>
-    <form action="/logout" method="GET">
-        <button>Log Out</button>
-    </form>
+<?php if (!$this->isLoggedIn()): ?>
+    <div class="col-sm-4 col-sm-offset-4 login-box">
+        <form class="login-form" role="form" action="/login" method="POST">
+            <p>Please log in to continue.</p>
+            <div class="form-group">
+                <input class="form-control" type="text" name="username" placeholder="Email" title="Email"/>
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password" name="password" placeholder="Password" tiwwqtle="Email"/>
+            </div>
+            <button class="col-sm-12 btn btn-primary">Log In</button>
+            <div class="clearfix"></div>
+        </form>
+    </div>
+    <div class="clearfix"></div>
 <?php endif; ?>

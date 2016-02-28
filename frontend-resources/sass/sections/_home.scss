@@ -1,0 +1,23 @@
+.vertical-wrapper {
+    display: block;
+    height: 100%;
+
+    .vertical-helper {
+        display: inline-block;
+        height: 100%;
+        width: 0;
+        vertical-align: middle;
+    }
+    .vertical-center {
+        width: 100%;
+        display: inline-block;
+        vertical-align: middle;
+    }
+}
+
+.block-definition {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    max-width: 25%;
+}

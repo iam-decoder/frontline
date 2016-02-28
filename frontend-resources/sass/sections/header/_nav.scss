@@ -1,0 +1,47 @@
+nav {
+    max-height: 100%;
+    width: 100%;
+    overflow-y: auto;
+
+    ul {
+        display: block;
+        text-indent: 0;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        li {
+            display: block;
+            text-align: left;
+
+            &[data-load] {
+                padding: 15px;
+                cursor: pointer;
+            }
+
+            &:hover {
+                background-color: $gray-dark;
+                color: white;
+            }
+
+            &:focus,
+            &:active {
+                outline: -webkit-focus-ring-color auto 5px;
+            }
+        }
+    }
+
+    button {
+
+        width: 100%;
+        height: auto;
+        display: block;
+        padding: 15px;
+        text-align: left;
+        background-color: transparent;
+        border: none;
+
+        &:hover {
+            background-color: $gray-dark;
+        }
+    }
+}

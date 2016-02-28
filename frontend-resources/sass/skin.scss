@@ -1,6 +1,6 @@
 @import "bootstrap-3.3.6/bootstrap";
-
-html, body {
-    margin: 0;
-    padding: 0;
-}
+@import "var";
+@import "sections/page";
+@import "sections/header";
+@import "sections/login";
+@import "sections/home";

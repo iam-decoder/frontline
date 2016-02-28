@@ -7,10 +7,11 @@ class Controller
         $_session,
         $_errors = array(),
         $_http_errors = array(
-            400 => "400 Bad Request",
-            500 => "500 Internal Server Error"
-        ),
-        $_auto_render = true;
+        400 => "400 Bad Request",
+        500 => "500 Internal Server Error"
+    ),
+        $_auto_render = true,
+        $_content_file = null;
 
     public function __construct()
     {
@@ -32,7 +33,7 @@ class Controller
     {
         if (!empty($this->_errors)) {
             if (!headers_sent()) {
-                if(!array_key_exists($status_code, $this->_http_errors)){
+                if (!array_key_exists($status_code, $this->_http_errors)) {
                     $status_code = 500;
                 }
                 header("HTTP/1.1 {$this->_http_errors[$status_code]}");
@@ -79,8 +80,11 @@ class Controller
 
     public function getContent($file = null)
     {
+        if ($file === true) {
+            $file = $this->_content_file;
+        }
         if (!empty($file) && is_string($file)) {
-            $file = strtolower(substr($file, -6) === ".phtml" ? $file : $file.".phtml");
+            $file = strtolower(substr($file, -6) === ".phtml" ? $file : $file . ".phtml");
             if (file_exists(VIEWPATH . $file)) {
                 ob_start();
                 require(VIEWPATH . $file);
@@ -90,10 +94,24 @@ class Controller
         return "";
     }
 
+    public function isLoggedIn()
+    {
+        return $this->_session->getData('logged_in') === true;
+    }
+
     public function __destruct()
     {
-        if($this->_auto_render) {
+        if ($this->_auto_render) {
             $this->renderView();
         }
+    }
+
+    protected function _setContentFile($file = null)
+    {
+        if (!empty($file) && is_string($file)) {
+            $this->_content_file = $file;
+            return true;
+        }
+        return false;
     }
 }

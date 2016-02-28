@@ -73,4 +73,5 @@ function redirect($url)
 {
     session()->save();
     header("Location: $url");
+    die;
 }

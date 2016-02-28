@@ -1,16 +1,22 @@
-<?php if (session()->getData('logged_in')): ?>
-    <nav>
-        <ul class="navigation">
-            <li data-load="product_lines">Product Lines</li>
-            <li data-load="products">Products</li>
-            <li data-load="order_details">Order details</li>
-            <li data-load="files_index">Files Index</li>
-            <li data-load="employees">Employees</li>
-            <li data-load="customers">Customers</li>
-            <li data-load="offices">Offices</li>
-            <li data-load="orders">Orders</li>
-            <li data-load="payments">Payments</li>
-        </ul>
-    </nav>
+<?php if ($this->isLoggedIn()): ?>
+    <header>
+        <nav>
+            <ul class="navigation">
+                <li data-load="plns">Product Lines</li>
+                <li data-load="prd">Products</li>
+                <li data-load="orddt">Order details</li>
+                <li data-load="flsi">Files Index</li>
+                <li data-load="emp">Employees</li>
+                <li data-load="cust">Customers</li>
+                <li data-load="ofcs">Offices</li>
+                <li data-load="ord">Orders</li>
+                <li data-load="pmnts">Payments</li>
+                <li>
+                    <form action="/logout" method="GET">
+                        <button>Log Out</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </header>
 <?php endif; ?>
-<?php require_once(VIEWPATH . "page/login.phtml"); ?>

@@ -1,0 +1,9 @@
+header {
+    height: 100%;
+    width: 100%;
+    max-width: $nav-width;
+    float: left;
+    background-color: $gray-light;
+
+    @import "header/nav";
+}
