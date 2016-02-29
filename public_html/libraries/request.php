@@ -232,13 +232,18 @@ class Request
      * @param null|string|array $path
      * @return array|string|null
      */
-    public function get($path = null)
+    public function get($path = null, $clean_xss = true)
     {
         if (is_string($path)) {
             $path = preg_replace("/([.|:-])/", "/", $path);
             $path = explode("/", $path);
         }
-        return is_array($path) ? $this->_valueByLevel($this->_get, array_values($path)) : $this->_get;
+        if ($clean_xss) {
+            return xss()->clean(is_array($path) ? $this->_valueByLevel($this->_get,
+                array_values($path)) : $this->_get);
+        } else {
+            return is_array($path) ? $this->_valueByLevel($this->_put, array_values($path)) : $this->_put;
+        }
     }
 
     /**
@@ -251,13 +256,18 @@ class Request
      * @param null|string|array $path
      * @return array|string|null
      */
-    public function post($path = null)
+    public function post($path = null, $clean_xss = true)
     {
         if (is_string($path)) {
             $path = preg_replace("/([.|:-])/", "/", $path);
             $path = explode("/", $path);
         }
-        return is_array($path) ? $this->_valueByLevel($this->_post, array_values($path)) : $this->_get;
+        if ($clean_xss) {
+            return xss()->clean(is_array($path) ? $this->_valueByLevel($this->_post,
+                array_values($path)) : $this->_post);
+        } else {
+            return is_array($path) ? $this->_valueByLevel($this->_put, array_values($path)) : $this->_put;
+        }
     }
 
     /**
@@ -270,13 +280,42 @@ class Request
      * @param null|string|array $path
      * @return array|string|null
      */
-    public function put($path = null)
+    public function put($path = null, $clean_xss = true)
     {
         if (is_string($path)) {
             $path = preg_replace("/([.|:-])/", "/", $path);
             $path = explode("/", $path);
         }
-        return is_array($path) ? $this->_valueByLevel($this->_post, array_values($path)) : $this->_get;
+        if ($clean_xss) {
+            return xss()->clean(is_array($path) ? $this->_valueByLevel($this->_put,
+                array_values($path)) : $this->_put);
+        } else {
+            return is_array($path) ? $this->_valueByLevel($this->_put, array_values($path)) : $this->_put;
+        }
+    }
+
+    /**
+     * Removes data sent with the request, usually used when removing things like Csrf tokens.
+     *
+     * @param string $key
+     * @param null|string $type request type to remove key from
+     * @return $this
+     */
+    public function unsetData($key, $type = null)
+    {
+        $normalized_type = !empty($type) ? $type : $this->method();
+        switch (strtoupper($normalized_type)) {
+            case 'GET':
+                unset($_GET[$key], $this->_get[$key]);
+                break;
+            case 'POST':
+                unset($_POST[$key], $this->_post[$key]);
+                break;
+            case 'PUT':
+                unset($this->_put[$key]);
+                break;
+        }
+        return $this;
     }
 
     /**
