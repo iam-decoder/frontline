@@ -27,7 +27,8 @@ require_once(HELPERPATH . "functions.php");
 
 //Standard classes loaded on all requests
 loadLibrary("encryption", true, "crypto");
-loadLibrary("request");
+loadLibrary("xss"); //needs to run before request
+loadLibrary("request"); //needs to run before session
 loadLibrary("session");
 loadLibrary("controller", false);
 loadLibrary("model", false);
@@ -36,5 +37,13 @@ loadLibrary("model", false);
 
 //run the request
 $GLOBALS['controller'] = loadController("home");
-
 controller()->handleRequest();
+
+
+
+//TODO: generate html tables for data in JS.
+//TODO: link together records that relate
+//TODO: pagination (order details has a few thousand records)
+//TODO: come up with a FilesIndex
+//TODO: split js file into multiple smaller ones.
+//TODO: "loading..." screen/modal thing.

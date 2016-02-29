@@ -49,6 +49,16 @@ function loadModel($modelname)
     return false;
 }
 
+function xss()
+{
+    return $GLOBALS['xss'];
+}
+
+function request()
+{
+    return $GLOBALS['request'];
+}
+
 function session()
 {
     return $GLOBALS['session'];
@@ -57,11 +67,6 @@ function session()
 function crypto()
 {
     return $GLOBALS['crypto'];
-}
-
-function request()
-{
-    return $GLOBALS['request'];
 }
 
 function controller()
