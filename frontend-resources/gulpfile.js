@@ -23,6 +23,8 @@ elixir(function (mix)
 
     // For sections, pages, and other site-wide javascript (that's not a library)
     mix.scripts([
+        'FES.js',
+        'Encryption.js',
         'controller.js'
     ], '../public_html/assets/js/frontline.js');
 

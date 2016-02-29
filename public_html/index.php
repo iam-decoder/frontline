@@ -45,5 +45,4 @@ controller()->handleRequest();
 //TODO: link together records that relate
 //TODO: pagination (order details has a few thousand records)
 //TODO: come up with a FilesIndex
-//TODO: split js file into multiple smaller ones.
 //TODO: "loading..." screen/modal thing.
