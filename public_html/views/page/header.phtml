@@ -13,6 +13,7 @@
                 <li data-load="pmnts">Payments</li>
                 <li>
                     <form action="/logout" method="GET">
+                        <?php echo $this->getContent("shared/csrf"); ?>
                         <button>Log Out</button>
                     </form>
                 </li>
