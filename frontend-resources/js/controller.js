@@ -6,6 +6,15 @@
         //register listeners
         $(document).on('submit', 'form', window.FES.onFormSubmit);
         $(document).on("click", "[data-load]", window.FES.onDataLoadClick);
+        $(document).on("click", "[data-submit]", window.FES.submitOnClick);
+        $(document).on("click", "[data-remove]", window.FES.removeOnClick);
+        $(document).on("remove_notifications", window.FES.removeNotifications);
+
+        $(document).trigger("remove_notifications");
+
+        $(document).on("content_transition_end", function(){
+            $(document).trigger("remove_notifications");
+        });
 
     });
 

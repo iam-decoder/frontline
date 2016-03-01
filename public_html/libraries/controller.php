@@ -11,7 +11,8 @@ class Controller
         500 => "500 Internal Server Error"
     ),
         $_auto_render = true,
-        $_content_file = null;
+        $_content_file = null,
+        $_show_login_form = true;
 
     public function __construct()
     {
@@ -97,6 +98,15 @@ class Controller
     public function isLoggedIn()
     {
         return $this->_session->getData('logged_in') === true;
+    }
+
+    public function showLoginForm($value = null)
+    {
+        if(is_null($value)) {
+            return $this->_show_login_form;
+        } else {
+            $this->_show_login_form = (bool)$value;
+        }
     }
 
     public function __destruct()

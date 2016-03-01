@@ -16,6 +16,12 @@ function loadController($default)
         require_once(CONTROLLERPATH . "$default.php");
         $controller = ucfirst($default);
         return new $controller();
+    } else {
+        if(!headers_sent()){
+            header("HTTP/1.1 404 Not Found");
+            require(VIEWPATH . "errors/404.phtml");
+            die;
+        }
     }
     return false;
 }

@@ -52,6 +52,26 @@
                 console.warn("could not find " + target + " in the DOM...");
             }
         },
+        submitOnClick: function(e){
+            e.preventDefault();
+            $(this).closest("form").submit();
+            return false;
+        },
+        removeOnClick: function(e){
+            e.preventDefault();
+            $(this).closest("[data-remove-target]").remove();
+            return false;
+        },
+        removeNotifications: function(){
+            $(".notifications").each(function(i,el){
+                var $el = $(el);
+                setTimeout(function(){
+                    $el.slideUp(300, function(){
+                        $el.remove();
+                    });
+                }, 15000); //slide up after 15 seconds
+            });
+        },
         onFormSubmit: function (e)
         {
             e.preventDefault();
@@ -60,7 +80,9 @@
             if (form_data && typeof form_data.password === "string" && form_data.password.length > 0) {
                 form_data.password = window.FES.singleton.encryption.encrypt(form_data.password);
             }
-
+            $form.find(".help-block").remove();
+            $form.find(".error").removeClass("error");
+            console.log(form_data);
             $.ajax({
                 type: $form.attr('method'),
                 async: true,
@@ -74,11 +96,33 @@
                 },
                 success: function (html)
                 {
+                    if(html.indexOf("http") === 0){
+                        window.location.href = html;
+                        return;
+                    }
                     window.FES.contentTransition('body', html, 600);
                 },
                 error: function (data)
                 {
-                    console.warn("Error Received: ", data.responseText);
+                    if(window.FES.isStringValidJson(data.responseText)){
+                        var json = JSON.parse(data.responseText);
+                        for(var i in json){
+                            if(i === "fields"){
+                                for(var j in json[i]){
+                                    $form.find('[name^="' + j + '"]').each(function(k, el){
+                                        var $inputEl = $(el);
+                                        console.log(json, i, json[i], j);
+                                        $inputEl.addClass("error");
+                                        $inputEl.parent().append($('<div class="help-block error">' + json[i][j] + '</div>'));
+                                    });
+                                }
+                            } else {
+                                $form.prepend($('<div class="help-block error">' + json[i] + '</div>'))
+                            }
+                        }
+                    } else {
+                        console.error("Error Received: ", data.responseText);
+                    }
                 }
             });
             return false; //stop the click propagation
@@ -118,7 +162,7 @@
                 },
                 error: function (response)
                 {
-                    console.warn("error received: ", response.responseText);
+                    console.error("error received: ", response.responseText);
                 }
             });
 

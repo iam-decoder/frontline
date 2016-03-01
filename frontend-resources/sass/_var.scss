@@ -4,3 +4,9 @@ $spacing: 10px;
 $gray-dark: #616161;
 $gray-light: #ABABAB;
 $gray-lightest: #F7F7F7;
+
+@mixin border-radius($int: 2px) {
+    -moz-border-radius: $int;
+    -webkit-border-radius: $int;
+    border-radius: $int;
+}

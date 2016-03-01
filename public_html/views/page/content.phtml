@@ -1,3 +1,7 @@
-<div class="stretch-block" id="datatable">
+<?php if($this->isLoggedIn()): ?>
+    <div class="stretch-block" id="datatable">
+        <?php echo $this->getContent(true); ?>
+    </div>
+<?php else: ?>
     <?php echo $this->getContent(true); ?>
-</div>
+<?php endif;

@@ -1,0 +1,18 @@
+<?php
+
+$success = session()->getFlashed("success_message");
+$notice = session()->getFlashed("notice_message");
+$error = session()->getFlashed("error_message");
+
+?>
+<div class="notifications">
+    <?php if(!empty($success)): ?>
+        <div class="message-block success" data-remove-target=""><div class="close-button" data-remove=""></div><span class="preamble">Success:</span> <?php echo $success; ?></div>
+    <?php endif; ?>
+    <?php if(!empty($notice)): ?>
+        <div class="message-block notice" data-remove-target=""><div class="close-button" data-remove=""></div><span class="preamble">Notice:</span> <?php echo $notice; ?></div>
+    <?php endif; ?>
+    <?php if(!empty($error)): ?>
+        <div class="message-block error" data-remove-target=""><div class="close-button" data-remove=""></div><span class="preamble">Error:</span> <?php echo $error; ?></div>
+    <?php endif; ?>
+</div>

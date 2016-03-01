@@ -4,7 +4,7 @@ class Login extends Controller
 {
     protected
         $_auth_failed_message = 'Invalid email/password combination.',
-        $_auth_failed_field = 'username',
+        $_auth_failed_field = false,
         $_loginModel;
 
     public function __construct()

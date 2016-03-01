@@ -1,9 +1,9 @@
-<?php if (!$this->isLoggedIn()): ?>
+<?php if ($this->showLoginForm() && !$this->isLoggedIn()): ?>
     <div class="col-sm-4 col-sm-offset-4 login-box">
         <form class="login-form" role="form" action="/login" method="POST">
             <p>Please log in to continue.</p>
             <div class="form-group">
-                <input class="form-control" type="text" name="username" placeholder="Email" title="Email"/>
+                <input class="form-control" type="email" name="username" placeholder="Email" title="Email"/>
             </div>
             <div class="form-group">
                 <input class="form-control" type="password" name="password" placeholder="Password" tiwwqtle="Email"/>
@@ -12,6 +12,7 @@
             <button class="col-sm-12 btn btn-primary">Log In</button>
             <div class="clearfix"></div>
         </form>
+        <form action="/reset" method="GET">Need to <a data-submit="">Reset your password?</a></form>
     </div>
     <div class="clearfix"></div>
 <?php endif; ?>

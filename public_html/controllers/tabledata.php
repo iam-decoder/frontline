@@ -21,6 +21,9 @@ class Tabledata extends Controller
     {
         parent::__construct();
         $this->_auto_render = false;
+        if(!$this->isLoggedIn()){
+            redirect("/");
+        }
     }
 
     public function handleRequest()

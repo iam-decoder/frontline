@@ -29,3 +29,34 @@ body {
     height: 100%;
     display: block;
 }
+
+[data-submit],
+[data-remove] {
+    cursor: pointer;
+}
+
+form {
+    .help-block {
+        font-size: 16px;
+        display: block;
+        margin: 0 auto 10px auto;
+
+        &.error {
+            color: red;
+        }
+    }
+    .form-group {
+        .error:not(.help-block) {
+            border: 1px solid red;
+        }
+        .help-block {
+            font-size: 12px;
+            margin: 0 auto;
+
+
+            &:before {
+                content: "*";
+            }
+        }
+    }
+}

@@ -40,7 +40,7 @@ class Session
     public function start()
     {
         if ($this->_session_id !== false) {
-            $this->_readSession();
+            $this->_readSession()->handleFlash();
             if (!$this->_verifyIp()) {
                 $this->refresh();
             }
@@ -53,6 +53,27 @@ class Session
             }
         }
         return $this;
+    }
+
+    public function flashData($key, $value = null){
+        if(!array_key_exists('flash', $this->_cookie_data)){
+            $this->_cookie_data['flash'] = array();
+        }
+        $this->_cookie_data['flash'][$key] = $value;
+        return $this;
+    }
+
+    public function getFlashed($key)
+    {
+        if (array_key_exists('flash_old', $this->_cookie_data)
+            && array_key_exists($key, $this->_cookie_data['flash_old'])) {
+            return $this->_cookie_data['flash_old'][$key];
+        }
+        if(array_key_exists('flash', $this->_cookie_data)
+            && array_key_exists($key, $this->_cookie_data['flash'])){
+            return $this->_cookie_data['flash'][$key];
+        }
+        return null;
     }
 
     public function setData($key, $value)
@@ -95,6 +116,16 @@ class Session
         $this->_destroyCookieAndFile();
         $this->_session_id = $this->_newSessionId();
         $this->_newCsrfToken()->_createCookie(true);
+        return $this;
+    }
+
+    public function handleFlash()
+    {
+        unset($this->_cookie_data['flash_old']);
+        if(array_key_exists('flash', $this->_cookie_data)){
+            $this->_cookie_data['flash_old'] = $this->_cookie_data['flash'];
+            unset($this->_cookie_data['flash']);
+        }
         return $this;
     }
 

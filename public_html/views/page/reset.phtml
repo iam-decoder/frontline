@@ -1,0 +1,31 @@
+<?php if (!$this->isLoggedIn()): ?>
+    <?php if(!$this->keyVerified()): ?>
+        <div class="col-sm-4 col-sm-offset-4 reset-box">
+            <form class="reset-form" role="form" action="/reset" method="POST">
+                <p>Enter the email address associated with your account.</p>
+                <div class="form-group">
+                    <input class="form-control" type="email" name="username" placeholder="Email" title="Email"/>
+                </div>
+                <?php echo $this->getContent("shared/csrf"); ?>
+                <button class="col-sm-12 btn btn-primary">Send Confirmation</button>
+                <div class="clearfix"></div>
+            </form>
+        </div>
+        <div class="clearfix"></div>
+    <?php else: ?>
+        <div class="col-sm-4 col-sm-offset-4 reset-box">
+            <form class="reset-form" role="form" action="/reset" method="POST">
+                <p>Welcome Back <?php echo $this->getUsername(); ?>! Enter a new password below.</p>
+                <div class="form-group">
+                    <input class="form-control" type="password" name="password" placeholder="New Password" title="New Password"/>
+                </div>
+                <input type="hidden" name="username" value="<?php echo $this->getUsername(); ?>"/>
+                <input type="hidden" name="token" value="<?php echo $this->getCurrentToken(); ?>"/>
+                <?php echo $this->getContent("shared/csrf"); ?>
+                <button class="col-sm-12 btn btn-primary">Reset Password</button>
+                <div class="clearfix"></div>
+            </form>
+        </div>
+        <div class="clearfix"></div>
+    <?php endif; ?>
+<?php endif; ?>
