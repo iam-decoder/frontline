@@ -10,15 +10,15 @@ class Employees_Model extends Tabledata_Model
         $this->_table_name = "employees";
         $this
             ->_addAllowableFields(array(
-                'lastName',
-                'firstName',
-                'extension',
-                'email',
-                'off.city',
-                'jobTitle as Title'
+                'lastName as "lastName"',
+                'firstName as "firstName"',
+                'extension as "extension"',
+                'email as "email"',
+                'off.city as "city"',
+                'jobTitle as "title"'
             ))
             ->_disableIdentifierEscaping()
-            ->_addAllowableField("CONCAT(`repto`.`firstName`, ' ', `repto`.`lastName`) as 'Reports To'", true)
+            ->_addAllowableField("CONCAT(`repto`.`firstName`, ' ', `repto`.`lastName`) as 'reportsTo'", true)
             ->_enableIdentifierEscaping()
             ->_addJoin($this->_table_name, 'repto', "repto.employeeNumber = main.reportsTo")
             ->_addJoin('offices', 'off', 'off.officeCode = main.officeCode');

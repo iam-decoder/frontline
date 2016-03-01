@@ -15,6 +15,7 @@ elixir(function (mix)
     mix.scripts([
         'vendor/jquery/jquery-2.2.1.js',
         'vendor/jquery/serializeObject.js',
+        'vendor/jquery/dynatable/jquery.dynatable.js',
         'vendor/JSBN/jsbn.js',
         'vendor/JSBN/rsa.js',
         'vendor/JSBN/prng4.js',

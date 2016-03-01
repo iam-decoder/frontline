@@ -108,7 +108,7 @@ class Session
     protected function _newCsrfToken()
     {
         if($this->_flags['csrfValidation']) {
-            $this->_cookie_data['csrf'] = crypto()->serverEncrypt($this->_newSessionId());
+            $this->_cookie_data['csrf'] = hash_hmac("sha256", $this->_newSessionId(), microtime());
         }
         return $this;
     }

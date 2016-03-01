@@ -8,6 +8,16 @@ class Products_Model extends Tabledata_Model
     {
         parent::__construct();
         $this->_table_name = "products";
-        $this->_addAllowableFields(array('*'));
+        $this->_addAllowableFields(array(
+            'productCode as "code"',
+            'productName as "name"',
+            'productLine as "line"',
+            'productScale as "scale"',
+            'productVendor as "vendor"',
+            'productDescription as "description"',
+            'quantityInStock as "quantity"',
+            'buyPrice as "price"',
+            'MSRP as "msrp"'
+        ));
     }
 }

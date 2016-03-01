@@ -24,10 +24,6 @@
                 $meta_node.remove();
             }
         },
-        generateDataTable: function (data)
-        {
-            console.log("generateDataTable: ", data);
-        },
         contentTransition: function (target, html, duration)
         {
             if (!target || !html) {
@@ -38,13 +34,14 @@
                 $new_content = $(html).css("display", "none"),
                 transition_duration = (duration || 800) / 2;
             if ($body.length > 0) {
-                $body.find("> *").each(function (i, el)
+                $body.html("<div class='stretch-block'>" + $body.html() + "</div>"); //wrapping in a div ensures that only 1 transition end will be triggered.
+                $body.find("> div").each(function (i, el)
                 {
                     $(el).fadeOut(transition_duration, function ()
                     {
-
                         $body.empty();
                         $body.append($new_content);
+                        $(document).trigger("new_content_loaded");
                         $new_content.fadeIn(transition_duration, function ()
                         {
                             $(document).trigger("content_transition_end");
@@ -81,19 +78,7 @@
                 },
                 error: function (data)
                 {
-                    if (Object.prototype.toString.call(data) === "[object String]") {
-                        if (data.indexOf("{") === 0) {
-                            data = JSON.parse(data);
-                            if (data.errors) {
-                                $.each(data.errors, function (i, e)
-                                {
-                                    console.log(e);
-                                });
-                            }
-                        }
-                    } else {
-                        console.log(data);
-                    }
+                    console.warn("Error Received: ", data.responseText);
                 }
             });
             return false; //stop the click propagation
@@ -102,23 +87,16 @@
         {
             e.preventDefault();
 
-            var $source = $(this);
-            var table = $source.data("load");
+            var $source = $(this),
+                table = $source.data("load"),
+                ajax_data = {
+                    table: table,
+                    getTemplate: "true"
+                };
 
             if (typeof table !== "string" || table.length <= 0) { //table type is required
                 return false;
             }
-
-            var withData = $source.data("with");
-            var ajax_data = {
-                table: table
-            };
-            if (window.FES.isStringValidJson(withData)) {
-                ajax_data = $.extend(ajax_data, JSON.parse(withData));
-            } else
-                if (typeof withData === "string") {
-                    ajax_data.data = withData;
-                }
 
             $.ajax({
                 type: "GET",
@@ -132,23 +110,39 @@
                 },
                 success: function (response)
                 {
-                    var html = "";
+                    window.FES.currentTable = {
+                        id: ajax_data.table
+                    };
 
-                    if (window.FES.isStringValidJson(response)) {
-                        html = window.FES.generateDataTable(JSON.parse(response));
-                    } else {
-                        html = response;
-                    }
-
-                    window.FES.contentTransition("#datatable", html, 400);
+                    window.FES.contentTransition("#datatable", response, 400);
                 },
                 error: function (response)
                 {
-                    console.log("error received: ", response);
+                    console.warn("error received: ", response.responseText);
                 }
             });
 
             return false;
+        },
+        globalCellWriter: function(cellInfo, record)
+        {
+            var current_id = cellInfo.id;
+            var cell_content = "<td class='data-cell " + current_id + "'>";
+            var cell_data = record[current_id];
+            if(cell_data){
+                if(current_id === "price" || current_id === "msrp" || current_id === "priceEach") {
+                    cell_content += '$' + parseFloat(cell_data).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                } else if(current_id === "creditLimit" || current_id === "amount") {
+                    if(cell_data != 0){
+                        cell_content += '$' + parseFloat(cell_data).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    } else {
+                        cell_content += "N/a";
+                    }
+                } else {
+                    cell_content += cell_data;
+                }
+            }
+            return cell_content + "</td>";
         }
     };
 })(jQuery, window);

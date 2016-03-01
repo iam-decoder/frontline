@@ -1,0 +1,52 @@
+#datatable {
+    table {
+        width: 100%;
+        background-color: white;
+        margin-top: 20px;
+
+        thead {
+            width: 100%;
+            background-color: $gray-light;
+            color: black;
+
+            tr{
+                th{
+                    text-align: center;
+                    white-space: nowrap;
+                }
+            }
+        }
+
+        tbody {
+            width: 100%;
+            tr {
+                width: 100%;
+
+                &:nth-child(odd) {
+                    background-color: rgba(230, 242, 255, 0.6);
+                }
+                &:nth-child(even) {
+                    background-color: rgba(255, 255, 255, 1);
+                }
+
+                td {
+                    padding: 5px;
+                    vertical-align: middle;
+                    width: 3%;
+                    border-left: 1px solid #e6e6e6;
+                    border-right: 1px solid #e6e6e6;
+                }
+            }
+        }
+
+        &#prd {
+            tbody{
+                tr{
+                    td.description {
+                        width: 15%;
+                    }
+                }
+            }
+        }
+    }
+}

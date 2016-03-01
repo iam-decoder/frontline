@@ -7,6 +7,9 @@ class Tabledata_Model extends Model
         $_allowable_fields = array(),
         $_joins = array(),
         $_wheres = array(),
+        $_limit = null,
+        $_offset = null,
+        $_order_bys = array(),
         $_escape_identifiers = true;
 
     public function __construct()
@@ -14,12 +17,28 @@ class Tabledata_Model extends Model
         parent::__construct();
     }
 
+    public function countRows()
+    {
+
+        try {
+            $temp = $this->_allowable_fields;
+            $this->_allowable_fields = array('COUNT(*) as "total"');
+            $query = $this->_db->prepare($this->_compileSelect());
+            $query->execute();
+            $count = $query->fetch(PDO::FETCH_ASSOC);
+            $this->_allowable_fields = $temp;
+            return (int)$count['total'];
+        } catch (PDOException $ex) {
+            controller()->addError($ex->getMessage() . " [TD105]");
+        }
+        return false;
+    }
+
     public function fetchAllowable()
     {
         if (!empty($this->_allowable_fields)) {
 
             try {
-//                var_dump($this->_compileSelect());exit;
                 $query = $this->_db->prepare($this->_compileSelect());
                 $query->execute();
                 return $query->fetchAll(PDO::FETCH_ASSOC);
@@ -30,6 +49,39 @@ class Tabledata_Model extends Model
             controller()->addError("No allowable data fields could be retrieved. [TD102]");
         }
         return false;
+    }
+
+    public function addOrderBy($col, $direction = "asc")
+    {
+        if (!empty($col) && is_string($col)) {
+            if (strpos($col, ".") === false) {
+                $col = "main." . $col;
+            }
+            $direction = strtolower($direction) !== "desc" ? "ASC" : "DESC";
+            $this->_order_bys[] = $this->_escapeIdentifier($col) . " " . $direction;
+        }
+    }
+
+    public function setLimit($limit)
+    {
+        if (empty($limit)) {
+            return $this;
+        }
+        if (is_int($limit)) {
+            $this->_limit = $limit;
+        }
+        return $this;
+    }
+
+    public function setOffset($offset)
+    {
+        if (empty($offset)) {
+            return $this;
+        }
+        if (is_int($offset)) {
+            $this->_offset = $offset;
+        }
+        return $this;
     }
 
     protected function _addAllowableField($field = null, $no_prefix = false)
@@ -100,6 +152,20 @@ class Tabledata_Model extends Model
                 $query .= "    " . ($first ? "   " : "AND") . " {$where}\n";
                 $first = false;
             }
+            $query .= ")\n\n";
+        }
+
+        if (!empty($this->_order_bys)) {
+            $query .= "ORDER BY\n";
+            $query .= "    " . join(",\n    ", $this->_order_bys) . "\n\n";
+        }
+
+        if (!empty($this->_limit)) {
+            $query .= "LIMIT {$this->_limit}\n";
+            if (!empty($this->_offset)) {
+                $query .= "    OFFSET {$this->_offset}";
+            }
+            $query .= "\n\n";
         }
 
         return $query . ";";

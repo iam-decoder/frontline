@@ -8,14 +8,14 @@ html, body {
 }
 
 body {
+    overflow-y: auto;
+
     .content-container {
         display: block;
         height: 100%;
         overflow: hidden;
         overflow-y: auto;
     }
-
-    overflow-y: auto;
 }
 
 @for $i from 1 through 9 {

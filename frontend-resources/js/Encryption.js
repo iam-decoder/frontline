@@ -2,17 +2,20 @@
 {
     window.FES.Encryption = function ()
     {
+        //public
         this.rsa = new RSAKey();
-    }
 
-    window.FES.Encryption.prototype.setPublic = function (n, e)
-    {
-        return this.rsa.setPublic(n, e);
-    };
+        //public
+        this.setPublic = function (n, e)
+        {
+            return this.rsa.setPublic(n, e);
+        };
 
-    window.FES.Encryption.prototype.encrypt = function (input)
-    {
-        return this.rsa.encrypt(input);
+        //public
+        this.encrypt = function (input)
+        {
+            return this.rsa.encrypt(input);
+        };
     };
 
 })(jQuery, window);
