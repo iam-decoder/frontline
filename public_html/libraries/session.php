@@ -45,7 +45,9 @@ class Session
                 $this->refresh();
             }
             if (request()->isGet()) {
-                $this->_newCsrfToken();
+                if(!request()->isAjax()) { //only organic gets will generate a new csrf token
+                    $this->_newCsrfToken();
+                }
             } else {
                 $this->_validateCsrf();
             }
