@@ -2,18 +2,18 @@
     <header>
         <nav>
             <ul class="navigation">
-                <li data-load="plns">Product Lines</li>
-                <li data-load="prd">Products</li>
-                <li data-load="orddt">Order details</li>
-                <li data-load="emp">Employees</li>
-                <li data-load="cust">Customers</li>
-                <li data-load="ofcs">Offices</li>
-                <li data-load="ord">Orders</li>
-                <li data-load="pmnts">Payments</li>
+                <li data-load="plns" data-track="Table View=Product Lines">Product Lines</li>
+                <li data-load="prd" data-track="Table View=Products">Products</li>
+                <li data-load="orddt" data-track="Table View=Order Details">Order details</li>
+                <li data-load="emp" data-track="Table View=Employees">Employees</li>
+                <li data-load="cust" data-track="Table View=Customers">Customers</li>
+                <li data-load="ofcs" data-track="Table View=Offices">Offices</li>
+                <li data-load="ord" data-track="Table View=Orders">Orders</li>
+                <li data-load="pmnts" data-track="Table View=Payments">Payments</li>
                 <li>
                     <form action="/logout" method="GET">
                         <?php echo $this->getContent("shared/csrf"); ?>
-                        <button>Log Out</button>
+                        <button data-track="Log Out=Clicked">Log Out</button>
                     </form>
                 </li>
             </ul>

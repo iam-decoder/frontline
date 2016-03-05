@@ -1,10 +1,13 @@
 <?php echo $this->getContent("page/header"); ?>
 <div class="content-container">
-    <?php echo $this->getContent('page/login'); ?>
+    <?php echo $this->getContent("page/login"); ?>
     <?php echo $this->getContent("page/content"); ?>
     <?php if (!request()->isAjax()): ?>
-        <div id="page-meta" data-base-url="<?php echo request()->url(); ?>"
-             data-cookie-string='<?php echo json_encode(crypto()->keyDetails('private')); ?>'></div>
+        <div id="page-meta"
+             data-base-url="<?php echo request()->url(); ?>"
+             data-cookie-string='<?php echo json_encode(crypto()->keyDetails("private")); ?>'
+             data-ga-id="UA-74733074-1"
+        ></div>
     <?php endif; ?>
     <?php echo $this->getContent("page/notifications"); ?>
 </div>

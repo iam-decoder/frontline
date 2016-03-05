@@ -2,6 +2,7 @@
 {
     window.FES = {
         singleton: {},
+        gaInitialized: false,
         isStringValidJson: function (str)
         {
             if (typeof str !== "string" || str.length < 2) {
@@ -21,6 +22,9 @@
                 }
 
                 window.FES.base_url = $meta_node.data('baseUrl');
+
+                window.FES.googleAnalyticsId = $meta_node.data("gaId");
+
                 $meta_node.remove();
             }
         },
@@ -193,6 +197,55 @@
             });
 
             return false;
+        },
+        sendGaEvent: function(track_str){
+            if(!track_str || track_str.length === 0){
+                return false;
+            }
+            $(document).trigger("ga:init");
+            var event_info = track_str.split('=');
+            if(event_info.length > 1){
+                var event = event_info[0];
+                event_info.splice(0, 1);
+                ga('send', event, event_info.join("="));
+            } else {
+                ga('send', event_info[0]);
+            }
+            return true;
+        },
+        startGaListeners: function(){
+            $(document).on("ga:init", function(){
+                if (window.FES.gaInitialized || !window.FES.googleAnalyticsId) {
+                    return;
+                }
+                try {
+                    ga('create', window.FES.googleAnalyticsId, 'auto');
+                    window.FES.gaInitialized = true;
+                } catch (e) {
+                }
+            });
+
+            $(document).on("ga:send", function ()
+            {
+                window.FES.sendGaEvent('pageview');
+            });
+
+            $(document).on("ga:scan", function(){
+                $(document).find('[data-auto-track]').each(function(i, el){
+                    var $el = $(el),
+                        track_str = $el.data("autoTrack");
+                    $el.remove();
+                    window.FES.sendGaEvent(track_str);
+                });
+            });
+
+            $(document).on("content_transition_end", function(){
+                $(document).trigger("ga:scan");
+            });
+
+            $(document).on('click', '[data-track]', function(e){
+                window.FES.sendGaEvent($(this).data("track"));
+            });
         },
         globalCellWriter: function (cellInfo, record)
         {

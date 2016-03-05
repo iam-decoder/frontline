@@ -19,7 +19,8 @@ elixir(function (mix)
         'vendor/JSBN/jsbn.js',
         'vendor/JSBN/rsa.js',
         'vendor/JSBN/prng4.js',
-        'vendor/JSBN/rng.js'
+        'vendor/JSBN/rng.js',
+        'vendor/google/analytics.js'
     ], '../public_html/assets/js/lib.js');
 
     // For sections, pages, and other site-wide javascript (that's not a library)

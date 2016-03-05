@@ -18,6 +18,7 @@
             $(document).trigger("remove_notifications");
         });
 
+        window.FES.startGaListeners();
     });
 
     $(function ()
@@ -26,8 +27,9 @@
         //fill FES with meta information
         window.FES.getMeta('#page-meta');
 
+        $(document).trigger("ga:send");
+
         //listeners
-//        $(document).on("new_content_loaded", function ()
         $(document).on("content_transition_end", function ()
         {
 

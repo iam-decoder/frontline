@@ -7,11 +7,11 @@
                     <input class="form-control" type="email" name="username" placeholder="Email" title="Email"/>
                 </div>
                 <?php echo $this->getContent("shared/csrf"); ?>
-                <button class="col-sm-12 btn btn-primary">Send Confirmation</button>
+                <button class="col-sm-12 btn btn-primary" data-track="Reset Password=Started">Send Confirmation</button>
                 <div class="clearfix"></div>
             </form>
         </div>
-        <div class="clearfix"></div>
+        <div class="clearfix" data-auto-track="Reset Password (Start)=Viewed"></div>
     <?php else: ?>
         <div class="col-sm-4 col-sm-offset-4 reset-box">
             <form class="reset-form" role="form" action="/reset" method="POST">
@@ -22,10 +22,10 @@
                 <input type="hidden" name="username" value="<?php echo $this->getUsername(); ?>"/>
                 <input type="hidden" name="token" value="<?php echo $this->getCurrentToken(); ?>"/>
                 <?php echo $this->getContent("shared/csrf"); ?>
-                <button class="col-sm-12 btn btn-primary">Reset Password</button>
+                <button class="col-sm-12 btn btn-primary" data-track="Reset Password=Ended">Reset Password</button>
                 <div class="clearfix"></div>
             </form>
         </div>
-        <div class="clearfix"></div>
+        <div class="clearfix" data-auto-track="Reset Password (End)=Viewed"></div>
     <?php endif; ?>
 <?php endif; ?>
