@@ -45,5 +45,5 @@ controller()->handleRequest();
 
 
 
-//TODO: link together records that relate
-//TODO: "loading..." screen/modal thing.
+//TODO: link together records that relate - if necessary, will add. can be circumvented by new search functionality.
+//TODO: "loading..." screen/modal thing. - on hold, retrieval is fast enough that this isn't needed yet.
