@@ -8,6 +8,17 @@ class Employees_Model extends Tabledata_Model
     {
         parent::__construct();
         $this->_table_name = "employees";
+        $this->_searchable = array(
+            "employeenumber" => "employeeNumber",
+            "lastname" => "lastName",
+            "firstname" => "firstName",
+            "extension" => "extension",
+            "email" => "email",
+            "officecode" => "officeCode",
+            "reportsto" => "CONCAT(`repto`.`firstName`, ' ', `repto`.`lastName`)",
+            "title" => "jobTitle",
+            "city" => "off.city"
+        );
         $this
             ->_addAllowableFields(array(
                 'lastName as "lastName"',

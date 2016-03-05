@@ -21,7 +21,7 @@ class Tabledata extends Controller
     {
         parent::__construct();
         $this->_auto_render = false;
-        if(!$this->isLoggedIn()){
+        if (!$this->isLoggedIn()) {
             redirect("/");
         }
     }
@@ -34,7 +34,7 @@ class Tabledata extends Controller
                 echo $this->getContent("tables/" . $this->_request->get('table'));
             } else {
                 $this->_fetchTableData($this->_request->get('table'));
-                if($this->hasErrors()){
+                if ($this->hasErrors()) {
                     $this->renderErrors();
                 }
                 echo json_encode($this->getTableData());
@@ -57,19 +57,31 @@ class Tabledata extends Controller
             $this->addError("Sorry, something went wrong. Please refresh the page and try again. [M18]");
             $this->renderErrors(500);
         }
-        $offset = $this->_request->get("page");
-        if(is_null($offset)){
+
+        //queries
+        $queries = $this->_request->get("queries", true);
+        if (!empty($queries)) {
+            foreach ($queries as $type => $query) {
+                if (method_exists($this->_dataTableModel, $type . "Query")) {
+                    $this->_dataTableModel->{$type . "Query"}($query);
+                }
+            }
+        }
+
+        $table_data['queryRecordCount'] = $this->_dataTableModel->countRows();
+
+        $offset = $this->_request->get("page", true);
+        if (is_null($offset)) {
             $offset = 0;
-        } elseif($offset > 0) {
+        } elseif ($offset > 0) {
             $offset = ((int)$offset) - 1;
         } else {
             $offset = 0;
         }
-        $table_data['queryRecordCount'] = $this->_dataTableModel->countRows();
         $this->_dataTableModel->setOffset($offset * $this->_request->get("perPage"));
 
-        $limit = $this->_request->get("perPage");
-        if(is_null($limit)){
+        $limit = $this->_request->get("perPage", true);
+        if (is_null($limit)) {
             $limit = null;
         } else {
             $limit = (int)$limit;
@@ -77,9 +89,10 @@ class Tabledata extends Controller
         $this->_dataTableModel->setLimit($limit);
 
         $sorts = $this->_request->get("sorts");
-        if(!empty($sorts) && is_array($sorts)){
-            foreach($sorts as $col => $dir){
-                $this->_dataTableModel->addOrderBy($this->_translateColName($table, $col), (int)$dir === 1 ? 'asc' : 'desc');
+        if (!empty($sorts) && is_array($sorts)) {
+            foreach ($sorts as $col => $dir) {
+                $this->_dataTableModel->addOrderBy($this->_translateColName($table, $col),
+                    (int)$dir === 1 ? 'asc' : 'desc');
             }
         }
 
@@ -107,7 +120,8 @@ class Tabledata extends Controller
                 'extension' => 'extension',
                 'email' => 'email',
                 'city' => 'off.city',
-                'title' => 'jobTitle'
+                'title' => 'jobTitle',
+                'reportsTo' => ':reportsTo'
             ),
             'Customers' => array(
                 'customer' => 'customerName',
@@ -120,7 +134,7 @@ class Tabledata extends Controller
                 'state' => 'state',
                 'postalCode' => 'postalCode',
                 'country' => 'country',
-                'salesRep' => 'salesRepEmployeeNumber'
+                'salesRep' => ':salesRep' //
             ),
             'Offices' => array(
                 'phone' => 'phone',
@@ -151,11 +165,10 @@ class Tabledata extends Controller
             'Payments' => array(
                 'customer' => 'cst.customerName',
                 'checkNumber' => 'checkNumber',
-                'paymentDate' => 'paymentDate',
+                'paidOn' => 'paymentDate',
                 'amount' => 'amount'
             ),
-            'Productlines' => array(
-                //no translations necessary
+            'Productlines' => array(//no translations necessary
             ),
             'Products' => array(
                 'code' => 'productCode',
@@ -170,9 +183,9 @@ class Tabledata extends Controller
             ),
 
         );
-        if(array_key_exists($table, $translations)){
+        if (array_key_exists($table, $translations)) {
             $table_translation = $translations[$table];
-            if(array_key_exists($dynaId, $table_translation)){
+            if (array_key_exists($dynaId, $table_translation)) {
                 return $table_translation[$dynaId];
             }
         }

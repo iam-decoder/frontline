@@ -8,6 +8,15 @@ class Orders_Model extends Tabledata_Model
     {
         parent::__construct();
         $this->_table_name = "orders";
+        $this->_searchable = array(
+            "ordernumber" => "orderNumber",
+            "orderedon" => "orderDate",
+            "requiredby" => "requiredDate",
+            "shippedon" => "shippedDate",
+            "status" => "status",
+            "comments" => "comments",
+            "customer" => "cst.customerName"
+        );
         $this
             ->_addAllowableFields(array(
                 'orderNumber as "orderNumber"',

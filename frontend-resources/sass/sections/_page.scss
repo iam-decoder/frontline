@@ -31,8 +31,40 @@ body {
 }
 
 [data-submit],
-[data-remove] {
+[data-remove],
+[data-expand] {
     cursor: pointer;
+}
+
+[data-expand] {
+    font-size: 18px;
+
+    &:after {
+        content: url('/assets/img/arrow-right.png');
+        margin-left: 10px;
+        vertical-align: -15%;
+    }
+
+    &.clicked {
+        &:after {
+            content: url('/assets/img/arrow-down.png');
+            margin-left: 10px;
+            vertical-align: -15%;
+        }
+    }
+}
+
+.expandable {
+    display: none;
+
+    &.active {
+        display: block;
+    }
+}
+
+hr {
+    border-color: $gray-dark;
+    margin: 2px 0;
 }
 
 form {
@@ -52,7 +84,6 @@ form {
         .help-block {
             font-size: 12px;
             margin: 0 auto;
-
 
             &:before {
                 content: "*";

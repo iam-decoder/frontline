@@ -17,7 +17,7 @@ function loadController($default)
         $controller = ucfirst($default);
         return new $controller();
     } else {
-        if(!headers_sent()){
+        if (!headers_sent()) {
             header("HTTP/1.1 404 Not Found");
             require(VIEWPATH . "errors/404.phtml");
             die;

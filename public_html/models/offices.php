@@ -8,6 +8,17 @@ class Offices_Model extends Tabledata_Model
     {
         parent::__construct();
         $this->_table_name = "offices";
+        $this->_searchable = array(
+            "officecode" => "officeCode",
+            "city" => "city",
+            "phone" => "phone",
+            "addressline1" => "addressLine1",
+            "addressline2" => "addressLine2",
+            "state" => "state",
+            "country" => "country",
+            "postalcode" => "postalCode",
+            "territory" => "territory"
+        );
         $this
             ->_addAllowableFields(array(
                 'phone as "phone"',

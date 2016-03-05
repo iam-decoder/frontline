@@ -8,6 +8,17 @@ class Products_Model extends Tabledata_Model
     {
         parent::__construct();
         $this->_table_name = "products";
+        $this->_searchable = array(
+            "code" => "productCode",
+            "name" => "productName",
+            "line" => "productLine",
+            "scale" => "productScale",
+            "vendor" => "productVendor",
+            "description" => "productDescription",
+            "quantity" => "quantityInStock",
+            "price" => "buyPrice",
+            "msrp" => "MSRP"
+        );
         $this->_addAllowableFields(array(
             'productCode as "code"',
             'productName as "name"',

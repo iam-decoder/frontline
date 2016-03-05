@@ -8,6 +8,20 @@ class Customers_Model extends Tabledata_Model
     {
         parent::__construct();
         $this->_table_name = "customers";
+        $this->_searchable = array(
+            "customer" => "customerName",
+            "contactfirstname" => "contactFirstName",
+            "contactlastname" => "contactLastName",
+            "phone" => "phone",
+            "addressline1" => "addressLine1",
+            "addressline2" => "addressLine2",
+            "city" => "city",
+            "state" => "state",
+            "postalcode" => "postalCode",
+            "country" => "country",
+            "salesrep" => "CONCAT(`emp`.`firstName`, ' ', `emp`.`lastName`)",
+            "creditlimit" => "creditLimit"
+        );
         $this
             ->_addAllowableFields(array(
                 'customerName as "customer"',

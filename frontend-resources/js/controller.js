@@ -8,11 +8,13 @@
         $(document).on("click", "[data-load]", window.FES.onDataLoadClick);
         $(document).on("click", "[data-submit]", window.FES.submitOnClick);
         $(document).on("click", "[data-remove]", window.FES.removeOnClick);
+        $(document).on("click", "[data-expand]", window.FES.expandOnClick);
         $(document).on("remove_notifications", window.FES.removeNotifications);
 
         $(document).trigger("remove_notifications");
 
-        $(document).on("content_transition_end", function(){
+        $(document).on("content_transition_end", function ()
+        {
             $(document).trigger("remove_notifications");
         });
 
@@ -29,13 +31,17 @@
         $(document).on("content_transition_end", function ()
         {
 
-            if(!$.isEmptyObject(window.FES.currentTable)) {
+            if (!$.isEmptyObject(window.FES.currentTable)) {
                 var $table = $('#' + window.FES.currentTable.id);
                 if ($table.length > 0) {
                     $table.dynatable({
                         features: {
                             pushState: false,
-                            search: false
+                            search: true
+                        },
+                        inputs: {
+                            queryEvent: 'blur change keyup',
+                            processingText: ""
                         },
                         writers: {
                             _cellWriter: window.FES.globalCellWriter
@@ -51,7 +57,7 @@
                                 table: window.FES.currentTable.id
                             },
                             perPageDefault: 50,
-                            perPageOptions: [10, 20, 50, 100],
+                            perPageOptions: [20, 50, 100, 200],
                             records: []
                         }
                     });

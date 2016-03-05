@@ -10,8 +10,10 @@ class Logout extends Controller
 
     public function handleRequest()
     {
-        session()->destroy();
-        session()->flashData("success_message", "You have successfully logged out.")->handleFlash();
+        if (!$this->isLoggedIn()) {
+            redirect("/");
+        }
+        session()->destroy()->flashData("success_message", "You have successfully logged out.")->handleFlash();
         echo $this->getContent("page/body");
         return true;
     }

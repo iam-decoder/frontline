@@ -60,14 +60,14 @@ class Login_Model extends Model
         if (!empty($username)) {
             try {
                 $reset_key = $this->_newResetToken();
-                if(!$reset_key){
+                if (!$reset_key) {
                     throw new Exception("Sorry, there was a problem. Please refresh the page and try again.");
                 }
                 $query = $this->_db->prepare("UPDATE {$this->_table_name} SET `resetToken`=? WHERE `email`=?");
                 $query->bindParam(1, $reset_key, PDO::PARAM_STR);
                 $query->bindParam(2, $username, PDO::PARAM_STR);
                 $query->execute();
-                if($query->rowCount() === 1){
+                if ($query->rowCount() === 1) {
                     return $reset_key;
                 } else {
                     controller()->addError($query->rowCount() . " rows were affected");
@@ -81,8 +81,9 @@ class Login_Model extends Model
         return false;
     }
 
-    public function setPassword($username, $password, $reset_key = null){
-        if(!empty($username) && !empty($password)){
+    public function setPassword($username, $password, $reset_key = null)
+    {
+        if (!empty($username) && !empty($password)) {
             try {
                 $salt = sha1(microtime());
                 $hashedPassword = $this->_hashPassword($password, $salt);
@@ -93,13 +94,13 @@ class Login_Model extends Model
                 $query->bindParam(2, $hashedPassword, PDO::PARAM_STR);
                 $query->bindParam(3, $salt, PDO::PARAM_STR);
                 $query->bindParam(4, $username, PDO::PARAM_STR);
-                if(empty($reset_key)) {
+                if (empty($reset_key)) {
                     $query->bindParam(5, $null2, PDO::PARAM_NULL);
                 } else {
                     $query->bindParam(5, $reset_key, PDO::PARAM_STR);
                 }
                 $query->execute();
-                if($query->rowCount() === 1){
+                if ($query->rowCount() === 1) {
                     return true;
                 }
             } catch (PDOException $ex) {
@@ -111,7 +112,7 @@ class Login_Model extends Model
 
     public function getByResetToken($token)
     {
-        if(!empty($token)){
+        if (!empty($token)) {
             try {
                 $query = $this->_db->prepare("SELECT `id`, `email` FROM {$this->_table_name} WHERE `resetToken`=?");
                 $query->bindParam(1, $token, PDO::PARAM_STR);

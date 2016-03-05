@@ -1,0 +1,45 @@
+<h4 data-expand="search-tricks">Search Tricks</h4>
+<div id="search-tricks" class="expandable">
+    <ol class="search-tricks">
+        <li>
+            <ul>
+                <b>Default Behaviour</b>
+                <li><span>By default, if none of the above criteria specifications are used, the results will match all rows that contain the searched text.</span></li>
+            </ul>
+        </li>
+        <li>
+            <ul>
+                <b>Need to search for something inside of a specific column?</b>
+                <li><span>take the column name and remove all the spaces, place a colon after it and then the text you want to find (ex. "Colname:find me this").</span></li>
+            </ul>
+        </li>
+        <li>
+            <ul>
+                <b>Need a specific column to be equal/not-equal to something?</b>
+                <li><span>take the column name and remove all the spaces, place an equal sign after it and then the text you want to find (ex. "Colname=find me this").</span></li>
+                <li><span>you can do the same thing with '!=' to get the opposite (ex. "Colname!=find me this").</span></li>
+            </ul>
+        </li>
+        <li>
+            <ul>
+                <b>Need a specific column greater/less than something?</b>
+                <li><span>take the column name and remove all the spaces, place a '>' or '<' sign after it and then the text you want to find (ex. "Colname>20").</span></li>
+                <li><span>you can include an '=' after the '>' or '<' symbols to include the value itself in the results.(ex. "Colname>=20").</span></li>
+                <li><span>when using this with currency, don't include the '$' or ',' in the criteria value.</span></li>
+            </ul>
+        </li>
+        <li>
+            <ul>
+                <b>Need the opposite of a search criteria?</b>
+                <li><span>place an exclamation mark (!) at the beginning of the thing you want the opposite of (ex. "!OrderNumber:10100&&!OrderLine:3").</span></li>
+            </ul>
+        </li>
+        <li>
+            <ul>
+                <b>Want only rows that follow multiple criteria?</b>
+                <li><span>To require the results to follow all criteria, use tricks #1-4 for each criteria you want the row to follow, then separate each of those by "&&" (ex. "OrderNumber:10100&&OrderLine:3").</span></li>
+                <li><span>To allow the results to follow any of your criteria, use tricks #1-4 for each criteria you want the row to follow, then separate each of those by '|' (ex. "OrderNumber:10100|OrderLine:3").</span></li>
+            </ul>
+        </li>
+    </ol>
+</div>

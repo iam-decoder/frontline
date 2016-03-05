@@ -102,7 +102,7 @@ class Controller
 
     public function showLoginForm($value = null)
     {
-        if(is_null($value)) {
+        if (is_null($value)) {
             return $this->_show_login_form;
         } else {
             $this->_show_login_form = (bool)$value;

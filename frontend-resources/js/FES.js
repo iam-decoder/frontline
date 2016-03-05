@@ -52,21 +52,48 @@
                 console.warn("could not find " + target + " in the DOM...");
             }
         },
-        submitOnClick: function(e){
+        submitOnClick: function (e)
+        {
             e.preventDefault();
             $(this).closest("form").submit();
             return false;
         },
-        removeOnClick: function(e){
+        removeOnClick: function (e)
+        {
             e.preventDefault();
             $(this).closest("[data-remove-target]").remove();
             return false;
         },
-        removeNotifications: function(){
-            $(".notifications").each(function(i,el){
+        expandOnClick: function (e)
+        {
+            e.preventDefault();
+            var $this = $(this);
+            $this.toggleClass("clicked");
+            var $target = $("#" + $this.data('expand'));
+            if ($target && $target.length > 0) {
+                if (!$target.hasClass("active")) {
+                    $target.fadeIn(400, function ()
+                    {
+                        $target.addClass("active");
+                    });
+                } else {
+                    $target.fadeOut(300, function ()
+                    {
+                        $target.removeClass("active");
+                    });
+                }
+            }
+            return false;
+        },
+        removeNotifications: function ()
+        {
+            $(".notifications").each(function (i, el)
+            {
                 var $el = $(el);
-                setTimeout(function(){
-                    $el.slideUp(300, function(){
+                setTimeout(function ()
+                {
+                    $el.slideUp(300, function ()
+                    {
                         $el.remove();
                     });
                 }, 15000); //slide up after 15 seconds
@@ -82,7 +109,6 @@
             }
             $form.find(".help-block").remove();
             $form.find(".error").removeClass("error");
-            console.log(form_data);
             $.ajax({
                 type: $form.attr('method'),
                 async: true,
@@ -96,7 +122,7 @@
                 },
                 success: function (html)
                 {
-                    if(html.indexOf("http") === 0){
+                    if (html.indexOf("http") === 0) {
                         window.location.href = html;
                         return;
                     }
@@ -104,14 +130,14 @@
                 },
                 error: function (data)
                 {
-                    if(window.FES.isStringValidJson(data.responseText)){
+                    if (window.FES.isStringValidJson(data.responseText)) {
                         var json = JSON.parse(data.responseText);
-                        for(var i in json){
-                            if(i === "fields"){
-                                for(var j in json[i]){
-                                    $form.find('[name^="' + j + '"]').each(function(k, el){
+                        for (var i in json) {
+                            if (i === "fields") {
+                                for (var j in json[i]) {
+                                    $form.find('[name^="' + j + '"]').each(function (k, el)
+                                    {
                                         var $inputEl = $(el);
-                                        console.log(json, i, json[i], j);
                                         $inputEl.addClass("error");
                                         $inputEl.parent().append($('<div class="help-block error">' + json[i][j] + '</div>'));
                                     });
@@ -168,23 +194,24 @@
 
             return false;
         },
-        globalCellWriter: function(cellInfo, record)
+        globalCellWriter: function (cellInfo, record)
         {
             var current_id = cellInfo.id;
             var cell_content = "<td class='data-cell " + current_id + "'>";
             var cell_data = record[current_id];
-            if(cell_data){
-                if(current_id === "price" || current_id === "msrp" || current_id === "priceEach") {
+            if (cell_data) {
+                if (current_id === "price" || current_id === "msrp" || current_id === "priceEach") {
                     cell_content += '$' + parseFloat(cell_data).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                } else if(current_id === "creditLimit" || current_id === "amount") {
-                    if(cell_data != 0){
-                        cell_content += '$' + parseFloat(cell_data).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                } else
+                    if (current_id === "creditLimit" || current_id === "amount") {
+                        if (cell_data != 0) {
+                            cell_content += '$' + parseFloat(cell_data).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        } else {
+                            cell_content += "N/a";
+                        }
                     } else {
-                        cell_content += "N/a";
+                        cell_content += cell_data;
                     }
-                } else {
-                    cell_content += cell_data;
-                }
             }
             return cell_content + "</td>";
         }

@@ -1,7 +1,7 @@
 <?php
 
 //turn on error display
-if($_SERVER['DEVELOPER_MODE']){
+if (isset($_SERVER['DEVELOPER_MODE'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL | E_STRICT);

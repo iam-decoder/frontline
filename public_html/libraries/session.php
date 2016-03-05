@@ -45,7 +45,7 @@ class Session
                 $this->refresh();
             }
             if (request()->isGet()) {
-                if(!request()->isAjax()) { //only organic gets will generate a new csrf token
+                if (!request()->isAjax()) { //only organic gets will generate a new csrf token
                     $this->_newCsrfToken();
                 }
             } else {
@@ -55,8 +55,9 @@ class Session
         return $this;
     }
 
-    public function flashData($key, $value = null){
-        if(!array_key_exists('flash', $this->_cookie_data)){
+    public function flashData($key, $value = null)
+    {
+        if (!array_key_exists('flash', $this->_cookie_data)) {
             $this->_cookie_data['flash'] = array();
         }
         $this->_cookie_data['flash'][$key] = $value;
@@ -66,11 +67,13 @@ class Session
     public function getFlashed($key)
     {
         if (array_key_exists('flash_old', $this->_cookie_data)
-            && array_key_exists($key, $this->_cookie_data['flash_old'])) {
+            && array_key_exists($key, $this->_cookie_data['flash_old'])
+        ) {
             return $this->_cookie_data['flash_old'][$key];
         }
-        if(array_key_exists('flash', $this->_cookie_data)
-            && array_key_exists($key, $this->_cookie_data['flash'])){
+        if (array_key_exists('flash', $this->_cookie_data)
+            && array_key_exists($key, $this->_cookie_data['flash'])
+        ) {
             return $this->_cookie_data['flash'][$key];
         }
         return null;
@@ -122,7 +125,7 @@ class Session
     public function handleFlash()
     {
         unset($this->_cookie_data['flash_old']);
-        if(array_key_exists('flash', $this->_cookie_data)){
+        if (array_key_exists('flash', $this->_cookie_data)) {
             $this->_cookie_data['flash_old'] = $this->_cookie_data['flash'];
             unset($this->_cookie_data['flash']);
         }
@@ -140,7 +143,7 @@ class Session
 
     protected function _newCsrfToken()
     {
-        if($this->_flags['csrfValidation']) {
+        if ($this->_flags['csrfValidation']) {
             $this->_cookie_data['csrf'] = hash_hmac("sha256", $this->_newSessionId(), microtime());
         }
         return $this;
@@ -148,7 +151,7 @@ class Session
 
     protected function _validateCsrf()
     {
-        if($this->_flags['csrfValidation']) {
+        if ($this->_flags['csrfValidation']) {
             $form_csrf = request()->post($this->_csrf['token_name']);
             if (isset($this->_cookie_data['csrf']) && !empty($form_csrf)) {
                 if ($this->_cookie_data['csrf'] === $form_csrf) {
