@@ -207,7 +207,7 @@
             if(event_info.length > 1){
                 var event = event_info[0];
                 event_info.splice(0, 1);
-                ga('send', event, event_info.join("="));
+                ga('send', 'event', event, event_info.join("="));
             } else {
                 ga('send', event_info[0]);
             }
