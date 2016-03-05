@@ -53,7 +53,6 @@ class Tabledata_Model extends Model
         if (!empty($this->_allowable_fields)) {
 
             try {
-//                var_dump($this->_wheres, $this->_compileSelect());
                 $query = $this->_db->prepare($this->_compileSelect());
                 $this->_bindWheres($query);
                 $query->execute();

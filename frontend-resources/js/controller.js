@@ -40,7 +40,7 @@
                             search: true
                         },
                         inputs: {
-                            queryEvent: 'blur change keyup',
+                            queryEvent: 'blur change',
                             processingText: ""
                         },
                         writers: {
