@@ -1,7 +1,6 @@
 Options -Indexes +FollowSymLinks -MultiViews
 
 DirectoryIndex index.php
-ExpiresDefault "access plus 1 years"
 
 <IfModule mod_rewrite.c>
 
