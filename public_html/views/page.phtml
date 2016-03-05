@@ -4,6 +4,7 @@
         <!-- SEO Meta -->
         <title>Evaluation | Frontline Energy Services (FES)</title>
         <meta name="description" content="Evaluation project from Frontline Energy Services. -Travis Neal"/>
+        <meta charset="UTF-8">
 
         <!-- Favicons -->
         <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
@@ -32,9 +33,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <!-- Page Resources -->
-        <link rel="stylesheet" href="/assets/css/skin.css<?php echo '?v=' . rand(); ?>"/>
-        <script src="/assets/js/lib.js<?php echo '?v=' . rand(); ?>"></script>
-        <script src="/assets/js/frontline.js<?php echo '?v=' . rand(); ?>"></script>
+        <link rel="stylesheet" href="/assets/css/skin.css<?php echo DEVELOPER ? '?v=' . rand() : ""; ?>"/>
+        <script src="/assets/js/lib.js<?php echo DEVELOPER ? '?v=' . rand() : ""; ?>"></script>
+        <script src="/assets/js/frontline.js<?php echo DEVELOPER ? '?v=' . rand() : ""; ?>"></script>
     </head>
     <body>
         <?php echo $this->getContent("page/body"); ?>

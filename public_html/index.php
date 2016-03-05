@@ -2,10 +2,12 @@
 
 //turn on error display
 if (isset($_SERVER['DEVELOPER_MODE'])) {
+    define("DEVELOPER", true);
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL | E_STRICT);
 } else {
+    define("DEVELOPER", false);
     ini_set('display_errors', 0);
     ini_set('display_startup_errors', 0);
     error_reporting(-1);
