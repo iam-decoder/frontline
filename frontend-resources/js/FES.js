@@ -231,7 +231,7 @@
             });
 
             $(document).on("ga:scan", function(){
-                $(document).find('[data-auto-track]').each(function(i, el){
+                $('[data-auto-track]').each(function(i, el){
                     var $el = $(el),
                         track_str = $el.data("autoTrack");
                     $el.remove();
