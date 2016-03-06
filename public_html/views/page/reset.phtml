@@ -1,19 +1,21 @@
 <?php if (!$this->isLoggedIn()): ?>
     <?php if(!$this->keyVerified()): ?>
         <div class="col-sm-4 col-sm-offset-4 reset-box">
+            <div data-auto-track="Authorization=Start Reset Password Viewed"></div>
             <form class="reset-form" role="form" action="/reset" method="POST">
                 <p>Enter the email address associated with your account.</p>
                 <div class="form-group">
                     <input class="form-control" type="email" name="username" placeholder="Email" title="Email"/>
                 </div>
                 <?php echo $this->getContent("shared/csrf"); ?>
-                <button class="col-sm-12 btn btn-primary" data-track="Reset Password=Started">Send Confirmation</button>
+                <button class="col-sm-12 btn btn-primary" data-track="Athorization=Reset Password Sent">Send Confirmation</button>
                 <div class="clearfix"></div>
             </form>
         </div>
-        <div class="clearfix" data-auto-track="Reset Password (Start)=Viewed"></div>
+        <div class="clearfix"></div>
     <?php else: ?>
         <div class="col-sm-4 col-sm-offset-4 reset-box">
+            <div data-auto-track="Authorization=End Reset Password Viewed"></div>
             <form class="reset-form" role="form" action="/reset" method="POST">
                 <p>Welcome Back <?php echo $this->getUsername(); ?>! Enter a new password below.</p>
                 <div class="form-group">
@@ -22,10 +24,10 @@
                 <input type="hidden" name="username" value="<?php echo $this->getUsername(); ?>"/>
                 <input type="hidden" name="token" value="<?php echo $this->getCurrentToken(); ?>"/>
                 <?php echo $this->getContent("shared/csrf"); ?>
-                <button class="col-sm-12 btn btn-primary" data-track="Reset Password=Ended">Reset Password</button>
+                <button class="col-sm-12 btn btn-primary" data-track="Authorization=Reset Password Complete">Reset Password</button>
                 <div class="clearfix"></div>
             </form>
         </div>
-        <div class="clearfix" data-auto-track="Reset Password (End)=Viewed"></div>
+        <div class="clearfix"></div>
     <?php endif; ?>
 <?php endif; ?>

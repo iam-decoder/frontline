@@ -1,5 +1,6 @@
 <?php if ($this->showLoginForm() && !$this->isLoggedIn()): ?>
     <div class="col-sm-4 col-sm-offset-4 login-box">
+        <div data-auto-track="Authorization=Login Page"></div>
         <form class="login-form" role="form" action="/login" method="POST">
             <p>Please log in to continue.</p>
             <div class="form-group">
@@ -9,10 +10,10 @@
                 <input class="form-control" type="password" name="password" placeholder="Password" tiwwqtle="Email"/>
             </div>
             <?php echo $this->getContent("shared/csrf"); ?>
-            <button class="col-sm-12 btn btn-primary" data-track="Login Button=Clicked">Log In</button>
+            <button class="col-sm-12 btn btn-primary" data-track="Authorization=Login Button Clicked">Log In</button>
             <div class="clearfix"></div>
         </form>
         <form action="/reset" method="GET">Need to <a data-submit="">Reset your password?</a></form>
     </div>
-    <div class="clearfix" data-auto-track="Login Page=Viewed"></div>
+    <div class="clearfix"></div>
 <?php endif; ?>

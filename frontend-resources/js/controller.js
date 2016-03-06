@@ -28,6 +28,7 @@
         window.FES.getMeta('#page-meta');
 
         $(document).trigger("ga:send");
+        $(document).trigger("ga:scan");
 
         //listeners
         $(document).on("content_transition_end", function ()
