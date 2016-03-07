@@ -27,33 +27,36 @@ class Controller
 
     public function renderView()
     {
+        session()->save();
         echo $this->getContent("page");
     }
 
     public function renderErrors($status_code = 400)
     {
-        if (!empty($this->_errors)) {
-            if (!headers_sent()) {
-                if (!array_key_exists($status_code, $this->_http_errors)) {
-                    $status_code = 500;
-                }
-                header("HTTP/1.1 {$this->_http_errors[$status_code]}");
+        if (empty($this->_errors)) {
+            die;
+        }
+        session()->save();
+        if (!headers_sent()) {
+            if (!array_key_exists($status_code, $this->_http_errors)) {
+                $status_code = 500;
             }
-            if ($this->_request->isAjax()) {
-                echo json_encode($this->_errors);
-            } else {
-                $html = "";
-                foreach ($this->_errors as $i => $error) {
-                    if ($i === 'fields') {
-                        foreach ($error as $field => $error_msg) {
-                            $html .= "<p>Field '$field': $error_msg</p>";
-                        }
-                    } else {
-                        $html .= "<p>$error</p>";
+            header("HTTP/1.1 {$this->_http_errors[$status_code]}");
+        }
+        if ($this->_request->isAjax()) {
+            echo json_encode($this->_errors);
+        } else {
+            $html = "";
+            foreach ($this->_errors as $i => $error) {
+                if ($i === 'fields') {
+                    foreach ($error as $field => $error_msg) {
+                        $html .= "<p>Field '$field': $error_msg</p>";
                     }
+                } else {
+                    $html .= "<p>$error</p>";
                 }
-                echo $html;
             }
+            echo $html;
         }
         die;
     }

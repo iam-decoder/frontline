@@ -1,7 +1,7 @@
 <?php
 
 //turn on error display
-if (isset($_SERVER['DEVELOPER_MODE'])) {
+if (array_key_exists('DEVELOPER_MODE', $_SERVER)) {
     define("DEVELOPER", true);
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);

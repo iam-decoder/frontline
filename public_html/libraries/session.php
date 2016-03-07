@@ -7,6 +7,7 @@ class Session
         $_session_path,
         $_cookie_data = array(),
         $_session_file_ext = ".sess",
+        $_saved_current = false,
         $_cookie = array(
         'domain' => null,
         'path' => "/",
@@ -58,6 +59,7 @@ class Session
     public function flashData($key, $value = null)
     {
         if (!array_key_exists('flash', $this->_cookie_data)) {
+            $this->_saved_current = false;
             $this->_cookie_data['flash'] = array();
         }
         $this->_cookie_data['flash'][$key] = $value;
@@ -82,6 +84,7 @@ class Session
     public function setData($key, $value)
     {
         $this->_cookie_data[$key] = $value;
+        $this->_saved_current = false;
         return $this;
     }
 
@@ -96,6 +99,7 @@ class Session
     public function unsetData($key)
     {
         unset($this->_cookie_data[$key]);
+        $this->_saved_current = false;
         return $this;
     }
 
@@ -110,6 +114,7 @@ class Session
         $this->_destroyCookie();
         $this->_session_id = $this->_newSessionId();
         $this->_newCsrfToken()->_createCookie(true);
+        $this->_saved_current = false;
         return $this;
     }
 
@@ -119,6 +124,7 @@ class Session
         $this->_destroyCookieAndFile();
         $this->_session_id = $this->_newSessionId();
         $this->_newCsrfToken()->_createCookie(true);
+        $this->_saved_current = false;
         return $this;
     }
 
@@ -218,6 +224,9 @@ class Session
     protected
     function _saveSession()
     {
+        if ($this->_saved_current) {
+            return $this;
+        }
         if (!is_writable($this->_session_path)) {
             throw new Exception("Can't write to {$this->_session_path}");
         }
@@ -228,6 +237,7 @@ class Session
         if (!isset($_COOKIE[$this->_cookie['name'] . $this->_cookie['transfer_suffix']]) && !isset($_COOKIE[$this->_cookie['name']])) {
             $this->_createCookie();
         }
+        $this->_saved_current = true;
         return $this;
     }
 
@@ -235,6 +245,9 @@ class Session
     function _createCookie(
         $transfer_cookie = false
     ) {
+        if (headers_sent()) {
+            return false;
+        }
         return setcookie(
             $transfer_cookie ? $this->_cookie['name'] . $this->_cookie['transfer_suffix'] : $this->_cookie['name'],
             $this->_session_id,
